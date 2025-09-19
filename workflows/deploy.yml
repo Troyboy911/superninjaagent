@@ -1,0 +1,29 @@
+name: Deploy to DigitalOcean
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: root
+        key: ${{ secrets.DO_SSH_KEY }}
+        script: |
+          cd /opt/app
+          docker-compose pull
+          docker-compose up -d --force-recreate
