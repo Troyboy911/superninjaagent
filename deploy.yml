@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Build and push Docker images
-  uses: docker/build-push-action@v6.18.0
+      uses: docker/build-push-action@v6.18.0
   
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@v1.0.0
