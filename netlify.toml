@@ -1,0 +1,21 @@
+[build]
+  base = "web"
+  publish = ".next"
+  command = "npm run build"
+
+[context.production.environment]
+  NODE_ENV = "production"
+  # Add your required env variables here
+  OPENAI_API_KEY = ""
+  ANTHROPIC_API_KEY = ""
+  GEMINI_API_KEY = ""
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://localhost:4000/:splat"
+  status = 200
+
+[[headers]]
+  for = "/_next/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
